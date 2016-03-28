@@ -15,11 +15,12 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "think\\composer\\": "src/"
+        "psr-4": {
+            "think\\composer\\": "src"
         }
     },
     "extra": {
         "class": "think\\composer\\Plugin"
-    }
+    },
+    "minimum-stability": "dev"
 }
