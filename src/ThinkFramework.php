@@ -16,6 +16,14 @@ class ThinkFramework extends LibraryInstaller
             throw new \InvalidArgumentException('Unable to install this library!');
         }
 
+
+        if ($this->composer->getPackage()) {
+            $extra = $this->composer->getPackage()->getExtra();
+            if (!empty($extra['think-path'])) {
+                return $extra['think-path'];
+            }
+        }
+
         return 'thinkphp';
     }
 
