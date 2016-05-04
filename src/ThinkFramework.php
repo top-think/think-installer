@@ -4,6 +4,7 @@ namespace think\composer;
 
 use Composer\Package\PackageInterface;
 use Composer\Installer\LibraryInstaller;
+use Composer\Repository\InstalledRepositoryInterface;
 
 class ThinkFramework extends LibraryInstaller
 {
@@ -25,6 +26,20 @@ class ThinkFramework extends LibraryInstaller
         }
 
         return 'thinkphp';
+    }
+
+    public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
+    {
+        parent::install($repo, $package);
+        //remove tests dir
+        $this->filesystem->removeDirectory($this->getInstallPath($package) . DIRECTORY_SEPARATOR . 'tests');
+    }
+
+    public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
+    {
+        parent::update($repo, $initial, $target);
+        //remove tests dir
+        $this->filesystem->removeDirectory($this->getInstallPath($target) . DIRECTORY_SEPARATOR . 'tests');
     }
 
     /**
