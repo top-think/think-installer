@@ -15,8 +15,6 @@ namespace think\composer;
 use Composer\Installer\LibraryInstaller;
 use Composer\Package\PackageInterface;
 use Composer\Repository\InstalledRepositoryInterface;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 
 class ThinkTesting extends LibraryInstaller
 {
@@ -36,7 +34,8 @@ class ThinkTesting extends LibraryInstaller
     {
         parent::install($repo, $package);
 
-       $this->copyTestDir($package);
+        $this->copyTestDir($package);
+
 
     }
 
@@ -48,21 +47,13 @@ class ThinkTesting extends LibraryInstaller
 
     }
 
-    private function copyTestDir(PackageInterface $package){
+    private function copyTestDir(PackageInterface $package)
+    {
         $appDir = dirname($this->vendorDir);
         if (!is_file($appDir . DIRECTORY_SEPARATOR . 'phpunit.xml')) {
-
-            $it = new RecursiveDirectoryIterator($this->getInstallPath($package) . DIRECTORY_SEPARATOR . 'example', RecursiveDirectoryIterator::SKIP_DOTS);
-            $ri = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
-
-            foreach ($ri as $file) {
-                $targetPath = $appDir . DIRECTORY_SEPARATOR . $ri->getSubPathName();
-                if ($file->isDir()) {
-                    $this->filesystem->ensureDirectoryExists($targetPath);
-                } else {
-                    copy($file->getPathname(), $targetPath);
-                }
-            }
+            $this->filesystem->copyThenRemove($this->getInstallPath($package) . DIRECTORY_SEPARATOR . 'example', $appDir);
+        } else {
+            $this->filesystem->removeDirectoryPhp($appDir);
         }
     }
 
