@@ -50,10 +50,11 @@ class ThinkTesting extends LibraryInstaller
     private function copyTestDir(PackageInterface $package)
     {
         $appDir = dirname($this->vendorDir);
+        $source = $this->getInstallPath($package) . DIRECTORY_SEPARATOR . 'example';
         if (!is_file($appDir . DIRECTORY_SEPARATOR . 'phpunit.xml')) {
-            $this->filesystem->copyThenRemove($this->getInstallPath($package) . DIRECTORY_SEPARATOR . 'example', $appDir);
+            $this->filesystem->copyThenRemove($source, $appDir);
         } else {
-            $this->filesystem->removeDirectoryPhp($appDir);
+            $this->filesystem->removeDirectoryPhp($source);
         }
     }
 
