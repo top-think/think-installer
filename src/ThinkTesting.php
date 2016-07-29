@@ -35,18 +35,21 @@ class ThinkTesting extends LibraryInstaller
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
         parent::install($repo, $package);
+
         //copy tests dir
         $appDir = dirname($this->vendorDir);
+        if (!is_file($appDir . DIRECTORY_SEPARATOR . 'phpunit.xml')) {
 
-        $it = new RecursiveDirectoryIterator($this->getInstallPath($package), RecursiveDirectoryIterator::SKIP_DOTS);
-        $ri = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
+            $it = new RecursiveDirectoryIterator($this->getInstallPath($package), RecursiveDirectoryIterator::SKIP_DOTS);
+            $ri = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
 
-        foreach ($ri as $file) {
-            $targetPath = $appDir . DIRECTORY_SEPARATOR . $ri->getSubPathName();
-            if ($file->isDir()) {
-                $this->filesystem->ensureDirectoryExists($targetPath);
-            } else {
-                copy($file->getPathname(), $targetPath);
+            foreach ($ri as $file) {
+                $targetPath = $appDir . DIRECTORY_SEPARATOR . $ri->getSubPathName();
+                if ($file->isDir()) {
+                    $this->filesystem->ensureDirectoryExists($targetPath);
+                } else {
+                    copy($file->getPathname(), $targetPath);
+                }
             }
         }
     }
