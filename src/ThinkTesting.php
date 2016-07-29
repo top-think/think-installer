@@ -36,11 +36,23 @@ class ThinkTesting extends LibraryInstaller
     {
         parent::install($repo, $package);
 
-        //copy tests dir
+       $this->copyTestDir($package);
+
+    }
+
+    public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
+    {
+        parent::update($repo, $initial, $target);
+
+        $this->copyTestDir($target);
+
+    }
+
+    private function copyTestDir(PackageInterface $package){
         $appDir = dirname($this->vendorDir);
         if (!is_file($appDir . DIRECTORY_SEPARATOR . 'phpunit.xml')) {
 
-            $it = new RecursiveDirectoryIterator($this->getInstallPath($package), RecursiveDirectoryIterator::SKIP_DOTS);
+            $it = new RecursiveDirectoryIterator($this->getInstallPath($package) . DIRECTORY_SEPARATOR . 'example', RecursiveDirectoryIterator::SKIP_DOTS);
             $ri = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
 
             foreach ($ri as $file) {
