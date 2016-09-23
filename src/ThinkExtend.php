@@ -40,13 +40,23 @@ class ThinkExtend extends LibraryInstaller
             $composerExtra = $this->composer->getPackage()->getExtra();
             $extraDir      = (!empty($composerExtra['app-path']) ? $composerExtra['app-path'] : 'application') . DIRECTORY_SEPARATOR . 'extra';
             $this->filesystem->ensureDirectoryExists($extraDir);
-            foreach ((array) $extra['files'] as $file) {
-                $name   = pathinfo($file, PATHINFO_BASENAME);
+
+            //配置文件
+            foreach ((array) $extra['config'] as $name => $config) {
                 $target = $extraDir . DIRECTORY_SEPARATOR . $name;
-                $source = $this->getInstallPath($package) . DIRECTORY_SEPARATOR . $file;
-                if (is_file($source) && !is_file($target)) {
-                    copy($source, $target);
+                $source = $this->getInstallPath($package) . DIRECTORY_SEPARATOR . $config;
+
+                if (is_file($target)) {
+                    $this->io->write("<info>File {$target} exist!</info>");
+                    continue;
                 }
+
+                if (!is_file($source)) {
+                    $this->io->write("<info>File {$target} not exist!</info>");
+                    continue;
+                }
+
+                copy($source, $target);
             }
         }
     }
