@@ -35,14 +35,14 @@ class ThinkExtend extends LibraryInstaller
     {
         $extra = $package->getExtra();
 
-        if (!empty($extra['files'])) {
+        if (!empty($extra['think-config'])) {
 
             $composerExtra = $this->composer->getPackage()->getExtra();
             $extraDir      = (!empty($composerExtra['app-path']) ? $composerExtra['app-path'] : 'application') . DIRECTORY_SEPARATOR . 'extra';
             $this->filesystem->ensureDirectoryExists($extraDir);
 
             //配置文件
-            foreach ((array) $extra['config'] as $name => $config) {
+            foreach ((array) $extra['think-config'] as $name => $config) {
                 $target = $extraDir . DIRECTORY_SEPARATOR . $name;
                 $source = $this->getInstallPath($package) . DIRECTORY_SEPARATOR . $config;
 
