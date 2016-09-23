@@ -43,7 +43,7 @@ class ThinkExtend extends LibraryInstaller
 
             //配置文件
             foreach ((array) $extra['think-config'] as $name => $config) {
-                $target = $extraDir . DIRECTORY_SEPARATOR . $name;
+                $target = $extraDir . DIRECTORY_SEPARATOR . $name . '.php';
                 $source = $this->getInstallPath($package) . DIRECTORY_SEPARATOR . $config;
 
                 if (is_file($target)) {
