@@ -39,32 +39,25 @@ class ThinkExtend extends LibraryInstaller
 
             if (!empty($extra['think-config'])) {
 
-                $composerExtra = $this->composer->getPackage()->getExtra();
+                $extraDir = CONF_PATH . 'extra';
+                $this->filesystem->ensureDirectoryExists($extraDir);
 
-                $appDir = !empty($composerExtra['app-path']) ? $composerExtra['app-path'] : 'application';
+                //配置文件
+                foreach ((array) $extra['think-config'] as $name => $config) {
+                    $target = $extraDir . DIRECTORY_SEPARATOR . $name . '.php';
+                    $source = $this->getInstallPath($package) . DIRECTORY_SEPARATOR . $config;
 
-                if (is_dir($appDir)) {
-
-                    $extraDir = $appDir . DIRECTORY_SEPARATOR . 'extra';
-                    $this->filesystem->ensureDirectoryExists($extraDir);
-
-                    //配置文件
-                    foreach ((array) $extra['think-config'] as $name => $config) {
-                        $target = $extraDir . DIRECTORY_SEPARATOR . $name . '.php';
-                        $source = $this->getInstallPath($package) . DIRECTORY_SEPARATOR . $config;
-
-                        if (is_file($target)) {
-                            $this->io->write("<info>File {$target} exist!</info>");
-                            continue;
-                        }
-
-                        if (!is_file($source)) {
-                            $this->io->write("<info>File {$target} not exist!</info>");
-                            continue;
-                        }
-
-                        copy($source, $target);
+                    if (is_file($target)) {
+                        $this->io->write("<info>File {$target} exist!</info>");
+                        continue;
                     }
+
+                    if (!is_file($source)) {
+                        $this->io->write("<info>File {$target} not exist!</info>");
+                        continue;
+                    }
+
+                    copy($source, $target);
                 }
             }
         }
