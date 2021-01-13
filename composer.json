@@ -5,7 +5,8 @@
         "composer-plugin-api": "^1.0||^2.0"
     },
     "require-dev": {
-        "composer/composer": "^1.0||^2.0"
+        "composer/composer": "^1.0||^2.0",
+        "react/promise": "^1.2 || ^2.7"
     },
     "license": "Apache-2.0",
     "authors": [
