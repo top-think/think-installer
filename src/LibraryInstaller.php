@@ -5,7 +5,6 @@ namespace think\composer;
 use Composer\Package\PackageInterface;
 use Composer\Repository\InstalledRepositoryInterface;
 use React\Promise\PromiseInterface;
-use function React\Promise\resolve;
 
 abstract class LibraryInstaller extends \Composer\Installer\LibraryInstaller
 {
@@ -24,6 +23,6 @@ abstract class LibraryInstaller extends \Composer\Installer\LibraryInstaller
         if ($promise instanceof PromiseInterface) {
             return $promise;
         }
-        return resolve();
+        return new Promise();
     }
 }

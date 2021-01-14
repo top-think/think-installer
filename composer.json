@@ -2,8 +2,7 @@
     "name": "topthink/think-installer",
     "type": "composer-plugin",
     "require": {
-        "composer-plugin-api": "^1.0||^2.0",
-        "react/promise": "^1.2 || ^2.7"
+        "composer-plugin-api": "^1.0||^2.0"
     },
     "require-dev": {
         "composer/composer": "^1.0||^2.0"
